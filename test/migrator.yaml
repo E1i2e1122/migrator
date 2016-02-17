@@ -1,9 +1,6 @@
-# migrator configuration
 baseDir: test/migrations
-driver: postgres
-dataSource: "user=postgres dbname=migrator-test host=192.168.99.100 port=55432 sslmode=disable"
-# override only if you have own specific way of determining tenants
-tenantsSql: "select name from migrator_tenants"
+driver: mysql
+dataSource: "root@(192.168.99.100:33306)/migrator_test"
 singleSchemas:
   - public
   - ref
