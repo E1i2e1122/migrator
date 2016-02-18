@@ -24,5 +24,5 @@ if [[ "true" == "$running" ]]; then
 
   cat ../test/migrator-mysql.yaml | sed "s/\"[^@]*@[^:]*:[^\/]*\/[^\"]*/\"root@($ip:$port)\/$database/g" > ../test/migrator.yaml
 else
-  echo "Could not setup migrator-test db"
+  echo "Could not setup mysql"
 fi
