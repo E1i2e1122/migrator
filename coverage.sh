@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # when called with no arguments calls tests for all packages
-if [[ -z $1 ]]; then
+if [[ -z "$1" ]]; then
   packages=`go list -f "{{.Name}}" ./...`
 else
-  packages=$1
+  packages="$1"
 fi
 
 echo "mode: set" > coverage-all.txt
