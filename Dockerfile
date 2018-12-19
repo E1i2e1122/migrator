@@ -2,12 +2,17 @@ FROM golang:1.11.2-alpine3.8 as builder
 
 MAINTAINER Łukasz Budnik lukasz.budnik@gmail.com
 
-# install migrator
+# build migrator
 RUN apk add git
-RUN go get github.com/lukaszbudnik/migrator
+RUN go get -d -v github.com/lukaszbudnik/migrator
+RUN cd /go/src/github.com/lukaszbudnik/migrator && ./setup.sh
+RUN cd /go/src/github.com/lukaszbudnik/migrator && \
+  GIT_BRANCH=$(git branch | awk -v FS=' ' '/\*/{print $NF}' | sed 's|[()]||g') && \
+  GIT_COMMIT_SHA=$(git rev-list -1 HEAD) && \
+  go build -ldflags "-X main.GitCommitSha=$GIT_COMMIT_SHA -X main.GitBranch=$GIT_BRANCH"
 
 FROM alpine:3.8
-COPY --from=builder /go/bin/migrator /bin
+COPY --from=builder /go/src/github.com/lukaszbudnik/migrator/migrator /bin
 
 VOLUME ["/data"]
 
